@@ -1,0 +1,6 @@
+# Build files
+build/
+astatine.iso
+
+# Downloaded third-party dependency
+limine/
