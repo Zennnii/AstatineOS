@@ -1,6 +1,7 @@
 CC = x86_64-elf-gcc
 
 CFLAGS = -Iinclude \
+         -Ilimine \
          -ffreestanding \
          -fno-stack-protector \
          -fno-pic \
