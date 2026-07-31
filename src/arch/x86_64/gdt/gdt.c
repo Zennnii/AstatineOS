@@ -2,6 +2,7 @@
 #include <stdbool.h>
 #include "arch/x86_64/gdt/gdt.h"
 #include "drivers/serial/serial.h"
+#include "lib/printf/printf.h"
 
 struct gdt_entry gdt_entries[5];
 struct gdtr gdtr;
@@ -49,9 +50,9 @@ void initGdt(void) {
     gdt_flush(&gdtr);
 
     if (gdt_verify()) {
-        serial_write("GDT verified successfully\n");
+        kprintf("GDT verified successfully\n");
     }
     else {
-        serial_write("GDT verification failed\n");
+        kprintf("GDT verification failed\n");
     }
 }

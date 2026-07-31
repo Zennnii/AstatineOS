@@ -6,6 +6,7 @@
 #include "video/framebuffer/framebuffer.h"
 #include "boot/limine_requests.h"
 #include "drivers/serial/serial.h"
+#include "lib/printf/printf.h"
 
 __attribute__((used, section(".limine_requests")))
 static volatile LIMINE_BASE_REVISION(6);
@@ -25,7 +26,7 @@ static volatile LIMINE_REQUESTS_END_MARKER;
 void _start(void) {
     kernel_init();
 
-    serial_write("Welcome to Astatine OS\n");
+    kprintf("Welcome to Astatine OS\n");
 
     hcf();
 }
