@@ -23,8 +23,7 @@ void serial_init(void) {
     outb(COM1_BASE + 4, 0x0B);
 }
 
-void serial_writechar(char c) {
-
+void serial_putchar(char c) {
     // wait until transmitter is empty
     while (!(inb(COM1_BASE + 5) & 0x20));
 
@@ -33,6 +32,6 @@ void serial_writechar(char c) {
 
 void serial_write(const char *str){
     while (*str) {
-        serial_writechar(*str++);
+        serial_putchar(*str++);
     }
 }
