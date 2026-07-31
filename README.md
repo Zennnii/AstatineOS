@@ -10,12 +10,14 @@ The goal of this project is to build a custom operating system from the ground u
 - Limine bootloader support
 - Framebuffer initialization
 - Basic kernel initialization system
+- Architecture initialization layer (`arch_init`)
+- x86_64 Global Descriptor Table (GDT) setup
 - Serial driver (COM1)
 - Basic port I/O (`inb` / `outb`)
+- Basic kernel string library (`memset`, `memcpy`, `memmove`, `memcmp`, etc.)
 
 **Planned:**
 
-- GDT
 - TSS
 - IDT
 - Interrupt handling
@@ -29,20 +31,29 @@ The goal of this project is to build a custom operating system from the ground u
 
 ```
 .
-├── build/              Build output files
-├── include/            Kernel header files
-│   ├── arch/            Architecture-specific headers
-│   ├── boot/            Boot-related headers
-│   ├── drivers/         Driver headers
-│   └── ...
-├── src/                Kernel source code
-│   ├── drivers/         Hardware drivers
-│   └── kernel/          Core kernel code
-├── build.sh            Build script
-├── linker.ld           Kernel linker script
-├── limine.conf         Limine configuration file
-├── Makefile            Build configuration
-└── README.md           Documentation
+├── build/          Build output files (generated)
+├── include/        Kernel header files
+│ ├── arch/         Architecture-specific headers
+│ │ └── x86_64/     x86_64 architecture headers
+│ │ └── gdt/        Global Descriptor Table headers
+│ ├── boot/         Boot-related headers
+│ ├── drivers/      Hardware driver headers
+│ └── lib/          Kernel library headers
+├── src/            Kernel source code
+│ ├── arch/         Architecture-specific code
+│ │ └── x86_64/     x86_64 architecture implementation
+│ │ ├── gdt/        Global Descriptor Table implementation
+│ │ └── ...
+│ ├── drivers/      Hardware drivers
+│ │ └── serial/     Serial port driver
+│ ├── kernel/       Core kernel code
+│ └── lib/          Kernel utility libraries
+├── limine/         Limine bootloader files
+├── build.sh        Build script
+├── linker.ld       Kernel linker script
+├── limine.conf     Limine configuration file
+├── Makefile        Build configuration
+└── README.md       Documentation
 ```
 
 ## Building
@@ -62,7 +73,7 @@ You need:
 Clone the repository:
 
 ```bash
-git clone https://github.com/Zennnii/AstatineOS.git
+git clone <repository-url>
 cd astatine
 ```
 
