@@ -4,6 +4,8 @@
 #include "boot/limine_requests.h"
 #include "arch/x86_64/cpu/cpu.h"
 
+struct framebuffer framebuffer;
+
 void framebuffer_init(void) {
     if (framebuffer_request.response == NULL || framebuffer_request.response->framebuffer_count < 1) {
         hcf();

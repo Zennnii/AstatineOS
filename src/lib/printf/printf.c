@@ -1,15 +1,31 @@
 #include <stdarg.h>
 #include <stdint.h>
+#include <stddef.h>
 #include "drivers/serial/serial.h"
 
-void kprintf(const char *fmt, ...) {
-    va_list args;
+static void print_number(void (*putc)(char), uint64_t value, unsigned int base) {
+    static const char digits[] = "0123456789abcdef";
+    char buffer[65];
+    size_t i = 0;
 
-    va_start(args, fmt);
+    if (base < 2 || base > 16) {
+        return;
+    }
 
-    kvprintf(serial_putchar, fmt, args);
+    if (value == 0) {
+        putc('0');
+        return;
+    }
 
-    va_end(args);
+    while (value != 0) {
+        unsigned int digit = value % base;
+        buffer[i++] = digits[digit];
+        value /= base;
+    }
+
+    while (i > 0) {
+        putc(buffer[--i]);
+    }
 }
 
 void kvprintf(void (*putc)(char), const char *fmt, va_list args) {
@@ -35,7 +51,7 @@ void kvprintf(void (*putc)(char), const char *fmt, va_list args) {
             }
             // char
             case 'c': {
-                char c = va_arg(args, char);
+                char c = (char)va_arg(args, int);
                 putc(c);
                 break;
             }
@@ -68,27 +84,12 @@ void kvprintf(void (*putc)(char), const char *fmt, va_list args) {
     }
 }
 
-static void print_number(void (*putc)(char), uint64_t value, unsigned int base) {
-    static const char digits[] = "0123456789abcdef";
-    char buffer[65];
-    size_t i = 0;
+void kprintf(const char *fmt, ...) {
+    va_list args;
 
-    if (base < 2 || base > 16) {
-        return;
-    }
+    va_start(args, fmt);
 
-    if (value == 0) {
-        putc('0');
-        return;
-    }
+    kvprintf(serial_putchar, fmt, args);
 
-    while (value != 0) {
-        unsigned int digit = value % base;
-        buffer[i++] = digits[digit];
-        value /= base;
-    }
-
-    while (i > 0) {
-        putc(buffer[--i]);
-    }
+    va_end(args);
 }
