@@ -28,8 +28,9 @@ static void hcf(void) {
 void _start(void) {
     kernel_init();
 
-    serial_write("Serial output works");
+    serial_write("Welcome to Astatine OS\n");
 
+    // draw a magenta block to verify that the framebuffer works
     for (size_t y = 0; y < 100; y++) {
         for (size_t x = 0; x < 100; x++) {
             fb_ptr[y * (fb->pitch / 4) + x] = 0x00ff00ff;
