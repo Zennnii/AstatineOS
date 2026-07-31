@@ -2,7 +2,8 @@
 #include <stddef.h>
 #include <limine.h>
 #include "init.h"
-#include "framebuffer.h"
+#include "arch/x86_64/cpu/cpu.h"
+#include "video/framebuffer/framebuffer.h"
 #include "boot/limine_requests.h"
 #include "drivers/serial/serial.h"
 
