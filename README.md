@@ -73,8 +73,8 @@ You need:
 Clone the repository:
 
 ```bash
-git clone <repository-url>
-cd astatine
+git clone https://github.com/Zennnii/AstatineOS.git
+cd AstatineOS
 ```
 
 Building the kernel:
