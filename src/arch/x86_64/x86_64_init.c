@@ -3,5 +3,5 @@
 #include "arch/x86_64/gdt/gdt.h"
 
 void arch_init(void) {
-    initGdt();
+    gdt_init();
 }

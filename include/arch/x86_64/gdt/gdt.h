@@ -16,4 +16,4 @@ struct __attribute__((packed)) gdtr {
     uint64_t base;
 };
 
-void initGdt(void);
+void gdt_init(void);

@@ -7,6 +7,7 @@
 struct gdt_entry gdt_entries[5];
 struct gdtr gdtr;
 
+// Load the GDT and reload CS/segment registers
 extern void gdt_flush(struct gdtr *gdtr);
 
 void encodeGdtEntry(uint32_t num, uint32_t base, uint32_t limit, uint8_t access, uint8_t flags) {
@@ -27,7 +28,7 @@ bool gdt_verify(void) {
 
     asm volatile ("sgdt %0" : "=m"(current));
 
-    if (current.base != (uint64_t)&gdt_entries) {
+    if (current.base != (uint64_t)gdt_entries) {
         return false;
     }
     else if (current.limit != sizeof(gdt_entries) - 1) {
@@ -37,7 +38,7 @@ bool gdt_verify(void) {
     return true;
 }
 
-void initGdt(void) {
+void gdt_init(void) {
     encodeGdtEntry(0, 0, 0x00000000, 0x00, 0x0);    // null descriptor
     encodeGdtEntry(1, 0, 0xFFFFF, 0x9A, 0xA);       // kernel mode code segment
     encodeGdtEntry(2, 0, 0xFFFFF, 0x92, 0xC);       // kernel mode data segment
@@ -49,6 +50,7 @@ void initGdt(void) {
 
     gdt_flush(&gdtr);
 
+    // verify that the GDT was loaded correctly
     if (gdt_verify()) {
         kprintf("GDT verified successfully\n");
     }
