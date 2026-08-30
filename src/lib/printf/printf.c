@@ -75,6 +75,16 @@ void kvprintf(void (*putc)(char), const char *fmt, va_list args) {
                 break;
             }
 
+            // hexadecimal (64-bit unsigned integer)
+            case 'l': {
+                if (*(fmt + 1) == 'x') {
+                    uint64_t num = va_arg(args, uint64_t);
+                    print_number(putc, num, 16);
+                    fmt++;
+                }
+                break;
+            }
+
             case '%':
                 putc('%');
                 break;
