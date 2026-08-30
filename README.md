@@ -1,60 +1,26 @@
 # Astatine OS
-Astatine is a hobby operating system written in C and x86_64 assembly.
+Astatine is a hobby operating system written in C and x86_64 assembly that boots via the Limine bootloader.
 The goal of this project is to build a custom operating system from the ground up while learning low-level programming, computer architecture, and kernel development.
 
 ## Current features:
 
 **Implemented:**
 
-- x86_64 kernel
-- Limine bootloader support
-- Framebuffer initialization
-- Basic kernel initialization system
-- Architecture initialization layer (`arch_init`)
-- x86_64 Global Descriptor Table (GDT) setup
-- Serial driver (COM1)
-- Basic port I/O (`inb` / `outb`)
-- Basic kernel string library (`memset`, `memcpy`, `memmove`, `memcmp`, etc.)
+- x86_64 kernel with Limine boot support
+- Basic framebuffer and serial output
+- Interrupt and exception handling
+- Architecture initialization and CPU support
+- Kernel utility and memory functions
+- Basic hardware I/O
 
 **Planned:**
 
 - TSS
-- IDT
-- Interrupt handling
 - Keyboard drivers
 - Memory management
 - Virtual memory
 - Filesystem support
 - Userspace programs
-
-## Project Structure
-
-```
-.
-├── build/          Build output files (generated)
-├── include/        Kernel header files
-│ ├── arch/         Architecture-specific headers
-│ │ └── x86_64/     x86_64 architecture headers
-│ │ └── gdt/        Global Descriptor Table headers
-│ ├── boot/         Boot-related headers
-│ ├── drivers/      Hardware driver headers
-│ └── lib/          Kernel library headers
-├── src/            Kernel source code
-│ ├── arch/         Architecture-specific code
-│ │ └── x86_64/     x86_64 architecture implementation
-│ │ ├── gdt/        Global Descriptor Table implementation
-│ │ └── ...
-│ ├── drivers/      Hardware drivers
-│ │ └── serial/     Serial port driver
-│ ├── kernel/       Core kernel code
-│ └── lib/          Kernel utility libraries
-├── limine/         Limine bootloader files
-├── build.sh        Build script
-├── linker.ld       Kernel linker script
-├── limine.conf     Limine configuration file
-├── Makefile        Build configuration
-└── README.md       Documentation
-```
 
 ## Building
 
