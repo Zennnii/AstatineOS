@@ -4,17 +4,6 @@
 #include "arch/x86_64/cpu/cpu.h"
 #include "lib/printf/printf.h"
 
-static inline uint64_t read_cr2(void) {
-    uint64_t value;
-
-    asm volatile (
-        "mov %%cr2, %0"
-        : "=r"(value)
-    );
-
-    return value;
-}
-
 void divide_error_handler(struct interrupt_frame *frame) {
     (void)frame;
 
