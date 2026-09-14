@@ -3,7 +3,7 @@
 #include <stddef.h>
 #include "drivers/serial/serial.h"
 
-static void print_number(void (*putc)(char), uint64_t value, unsigned int base) {
+static void print_number(void (*putc)(char), uint64_t value, unsigned int base, unsigned int width, char padding) {
     static const char digits[] = "0123456789abcdef";
     char buffer[65];
     size_t i = 0;
@@ -23,6 +23,11 @@ static void print_number(void (*putc)(char), uint64_t value, unsigned int base) 
         value /= base;
     }
 
+    while (i < width) {
+        putc(padding);
+        width--;
+    }
+
     while (i > 0) {
         putc(buffer[--i]);
     }
@@ -37,6 +42,19 @@ void kvprintf(void (*putc)(char), const char *fmt, va_list args) {
         }
 
         fmt++; // skip %
+
+        bool zero_pad = false;
+        unsigned int width = 0;
+
+        if (*fmt == '0') {
+            zero_pad = true;
+            fmt++;
+        }
+        
+        while (*fmt >= '0' && *fmt <= '9') {
+            width = width * 10 + (*fmt - '0');
+            fmt++;
+        }
 
         switch (*fmt) {
             // string
@@ -61,9 +79,9 @@ void kvprintf(void (*putc)(char), const char *fmt, va_list args) {
             
                 if (num < 0) {
                     putc('-');
-                    print_number(putc, (uint64_t)(-(int64_t)num), 10);
+                    print_number(putc, (uint64_t)(-(int64_t)num), 10, width, zero_pad ? '0' : ' ');
                 } else {
-                    print_number(putc, (uint64_t)num, 10);
+                    print_number(putc, (uint64_t)num, 10, width, zero_pad ? '0' : ' ');
                 }
             
                 break;
@@ -71,7 +89,7 @@ void kvprintf(void (*putc)(char), const char *fmt, va_list args) {
             // hexadecimal
             case 'x': {
                 unsigned int num = va_arg(args, unsigned int);
-                print_number(putc, num, 16);
+                print_number(putc, num, 16, width, zero_pad ? '0' : ' ');
                 break;
             }
 
@@ -79,7 +97,7 @@ void kvprintf(void (*putc)(char), const char *fmt, va_list args) {
             case 'l': {
                 if (*(fmt + 1) == 'x') {
                     uint64_t num = va_arg(args, uint64_t);
-                    print_number(putc, num, 16);
+                    print_number(putc, num, 16, width, zero_pad ? '0' : ' ');
                     fmt++;
                 }
                 break;
