@@ -1,11 +1,10 @@
 #include <stdint.h>
 #include <stddef.h>
 #include <limine.h>
-#include "init.h"
-#include "arch/x86_64/cpu/cpu.h"
+#include "kernel/init.h"
+#include "arch/cpu.h"
 #include "video/framebuffer/framebuffer.h"
 #include "boot/limine_requests.h"
-#include "drivers/serial/serial.h"
 #include "lib/printf/printf.h"
 
 __attribute__((used, section(".limine_requests")))
@@ -28,5 +27,5 @@ void _start(void) {
 
     kprintf("Welcome to Astatine OS\n");
 
-    hcf();
+    arch_halt_forever();
 }

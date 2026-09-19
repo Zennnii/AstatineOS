@@ -1,6 +1,7 @@
 #pragma once
 
-void hcf(void);
+#include <stdint.h>
+
 void hlt(void);
 void cli(void);
 void sti(void);

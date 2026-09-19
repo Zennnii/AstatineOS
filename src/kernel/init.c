@@ -1,7 +1,7 @@
 #include <stdint.h>
 #include <stddef.h>
-#include "init.h"
-#include "arch/x86_64/x86_64_init.h"
+#include "kernel/init.h"
+#include "arch/init.h"
 #include "drivers/serial/serial.h"
 #include "video/framebuffer/framebuffer.h"
 #include "lib/printf/printf.h"

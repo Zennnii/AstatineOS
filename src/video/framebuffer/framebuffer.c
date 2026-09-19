@@ -2,13 +2,13 @@
 #include <stddef.h>
 #include "video/framebuffer/framebuffer.h"
 #include "boot/limine_requests.h"
-#include "arch/x86_64/cpu/cpu.h"
+#include "arch/cpu.h"
 
 struct framebuffer framebuffer;
 
 void framebuffer_init(void) {
     if (framebuffer_request.response == NULL || framebuffer_request.response->framebuffer_count < 1) {
-        hcf();
+        arch_halt_forever();
     }
 
     struct limine_framebuffer *fb = framebuffer_request.response->framebuffers[0];

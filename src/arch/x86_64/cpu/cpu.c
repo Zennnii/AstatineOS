@@ -13,14 +13,6 @@ void sti(void) {
     asm volatile ("sti");
 }
 
-// halt the cpu indefinitely
-void hcf(void) {
-    cli();
-    for (;;) {
-        hlt();
-    }
-}
-
 uint64_t read_cr0(void) {
     uint64_t value;
 
@@ -63,4 +55,21 @@ uint64_t read_cr4(void) {
     );
 
     return value;
+}
+
+// Architecture independent CPU operations
+[[noreturn]] void arch_halt_forever(void) {
+    cli();
+
+    for (;;) {
+        hlt();
+    }
+}
+
+void arch_enable_interrupts(void) {
+    sti();
+}
+
+void arch_disable_interrupts(void) {
+    cli();
 }
