@@ -43,13 +43,7 @@ git clone https://github.com/Zennnii/AstatineOS.git
 cd AstatineOS
 ```
 
-Building the kernel:
-
-```bash
-make
-```
-
-Create the bootable ISO:
+Building the kernel and creating the bootable ISO:
 ```bash
 ./build.sh
 ```
