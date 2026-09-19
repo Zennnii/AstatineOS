@@ -1,8 +1,7 @@
 #include <stdint.h>
 #include <stdbool.h>
 #include "arch/x86_64/gdt/gdt.h"
-#include "drivers/serial/serial.h"
-#include "lib/printf/printf.h"
+#include "kernel/panic/panic.h"
 
 struct gdt_entry gdt_entries[5];
 struct gdtr gdtr;
@@ -50,11 +49,8 @@ void gdt_init(void) {
 
     gdt_flush(&gdtr);
 
-    // verify that the GDT was loaded correctly
-    if (gdt_verify()) {
-        kprintf("GDT verified successfully\n");
-    }
-    else {
-        kprintf("GDT verification failed\n");
+    // kernel panic if the gdt failed to initialize
+    if (!gdt_verify()) {
+        panic("Failed to initialize GDT");
     }
 }

@@ -1,9 +1,8 @@
 #include <stdint.h>
 #include <stdbool.h>
-#include "arch/x86_64/cpu/cpu.h"
 #include "arch/x86_64/idt/idt.h"
 #include "arch/x86_64/idt/isr.h"
-#include "lib/printf/printf.h"
+#include "kernel/panic/panic.h"
 
 struct idt_entry idt[256];
 struct idtr idtr;
@@ -57,12 +56,8 @@ void idt_init(void) {
 
     idt_flush(&idtr);
 
-    // verify that the IDT was loaded correctly
-    if (idt_verify()) {
-        kprintf("IDT verified successfully\n");
-    }
-    else {
-        kprintf("IDT verification failed\n");
-        hcf();
+    // kernel panic if the idt failed to initialize
+    if (!idt_verify()) {
+        panic("Failed to initialize IDT");
     }
 }

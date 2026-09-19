@@ -1,71 +1,42 @@
 #include <stdint.h>
 #include "arch/x86_64/idt/isr.h"
 #include "arch/x86_64/idt/isr_handlers.h"
-#include "arch/x86_64/cpu/cpu.h"
-#include "lib/printf/printf.h"
+#include "arch/x86_64/panic/panic.h"
 
 void divide_error_handler(struct interrupt_frame *frame) {
     (void)frame;
 
-    kprintf("#DE Divide Error\n");
-    hcf();
+    x86_64_panic("#DE Divide Error\n", frame);
 }
 
 void nmi_handler(struct interrupt_frame *frame) {
     (void)frame;
 
-    kprintf("#NMI Non Maskable Interrupt\n");
-    hcf();
+    x86_64_panic("#NMI Non Maskable Interrupt\n", frame);
 }
 
 void breakpoint_handler(struct interrupt_frame *frame) {
     (void)frame;
 
-    kprintf("#BP Breakpoint\n");
-    hcf();
+    x86_64_panic("#BP Breakpoint\n", frame);
 }
 
 void invalid_opcode_handler(struct interrupt_frame *frame) {
     (void)frame;
 
-    kprintf("#UD Invalid Opcode (Undefined Opcode)\n");
-    hcf();
+    x86_64_panic("#UD Invalid Opcode (Undefined Opcode)\n", frame);
 }
 
 void double_fault_handler(struct interrupt_frame *frame) {
-    kprintf("#DF Double Fault\n");
-
-    kprintf("Error code: %x\n", frame->error_code);
-    kprintf("RIP: %x\n", frame->rip);
-    kprintf("CS: %x\n", frame->cs);
-    kprintf("RFLAGS: %x\n", frame->rflags);
-
-    hcf();
+    x86_64_panic("#DF Double Fault\n", frame);
 }
 
 void general_protection_handler(struct interrupt_frame *frame) {
-    kprintf("#GP General Protection Fault\n");
-
-    kprintf("Error code: %x\n", frame->error_code);
-    kprintf("RIP: %x\n", frame->rip);
-    kprintf("CS: %x\n", frame->cs);
-    kprintf("RFLAGS: %x\n", frame->rflags);
-
-    hcf();
+    x86_64_panic("#GP General Protection Fault\n", frame);
 }
 
 void page_fault_handler(struct interrupt_frame *frame) {
-    uint64_t address = read_cr2();
-
-    kprintf("#PF Page Fault\n");
-
-    kprintf("Error code: %x\n", frame->error_code);
-    kprintf("Fault Address: %lx\n", address);  
-    kprintf("RIP: %x\n", frame->rip);
-    kprintf("CS: %x\n", frame->cs);
-    kprintf("RFLAGS: %x\n", frame->rflags);
-    
-    hcf();
+    x86_64_panic("#PF Page Fault\n", frame);
 }
 
 exception_handler_t exception_handlers[32] = {
