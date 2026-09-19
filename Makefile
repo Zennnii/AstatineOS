@@ -1,7 +1,8 @@
 CC = x86_64-elf-gcc
 AS = nasm
 
-CFLAGS = -Iinclude \
+CFLAGS = -std=gnu23 \
+         -Iinclude \
          -Ilimine \
          -ffreestanding \
          -fno-stack-protector \
@@ -12,7 +13,8 @@ CFLAGS = -Iinclude \
          -m64 \
          -mcmodel=kernel \
          -Wall \
-         -Wextra
+         -Wextra \
+         -Werror
 
 ASFLAGS = -f elf64
 
